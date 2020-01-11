@@ -51,3 +51,13 @@ class Snake {
     this.positions.push([headX + deltaX, headY + deltaY]);
   }
 }
+
+class Food {
+  constructor(colId, rowId) {
+    this.colId = colId;
+    this.rowId = rowId;
+  }
+  position() {
+    return [this.colId, this.rowId];
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "snake-shiviraj",
+  "version": "1.0.0",
+  "description": "",
+  "main": "snake.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/step-batch-7/snake-shiviraj.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/step-batch-7/snake-shiviraj/issues"
+  },
+  "homepage": "https://github.com/step-batch-7/snake-shiviraj#readme"
+}

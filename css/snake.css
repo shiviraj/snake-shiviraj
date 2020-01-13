@@ -25,3 +25,11 @@ h1 {
 .ghost {
   background-color: gray;
 }
+#score-card {
+  font-size: 24px;
+  width: 800px;
+  text-align: right;
+  color: #333;
+  display: block;
+  margin: 0 auto;
+}

@@ -76,6 +76,7 @@ class Game {
     this.snake = snake;
     this.ghostSnake = ghostSnake;
     this.food = food;
+    this.score = 0;
   }
   newFood(newFood) {
     this.food = newFood;
@@ -85,6 +86,60 @@ class Game {
     this.ghostSnake.move();
   }
   isSnakeEatFood() {
-    return this.snake.eat(this.food);
+    const isFoodEaten = this.snake.eat(this.food);
+    if (isFoodEaten) this.updateScore();
+    return isFoodEaten;
+  }
+  updateScore() {
+    this.score += 5;
+  }
+}
+
+class Draw {
+  constructor(game, grid, score) {
+    this.grid = grid;
+    this.game = game;
+    this.scoreCard = score;
+  }
+  initialize(numOfCols, numOfRows) {
+    for (let y = 0; y < numOfRows; y++) {
+      for (let x = 0; x < numOfCols; x++) {
+        createCell(this.grid, x, y);
+      }
+    }
+  }
+  setup() {
+    this.snakes();
+    this.food();
+    this.score();
+  }
+  eraseTail(snake) {
+    const [colId, rowId] = snake.previousTail;
+    const cell = getCell(colId, rowId);
+    cell.classList.remove(snake.species);
+  }
+  snakes() {
+    const singleSnake = snake => {
+      this.eraseTail(snake);
+      snake.location.forEach(([colId, rowId]) => {
+        const cell = getCell(colId, rowId);
+        cell.classList.add(snake.species);
+      });
+    };
+    singleSnake(this.game.snake);
+    singleSnake(this.game.ghostSnake);
+  }
+  eraseFood() {
+    const [colId, rowId] = this.game.food.position();
+    const cell = getCell(colId, rowId);
+    cell.classList.remove('food');
+  }
+  food() {
+    const [colId, rowId] = this.game.food.position();
+    const cell = getCell(colId, rowId);
+    cell.classList.add('food');
+  }
+  score() {
+    this.scoreCard.innerText = `Score: ${this.game.score}`;
   }
 }

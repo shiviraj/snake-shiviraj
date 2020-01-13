@@ -25,7 +25,7 @@ const handleKeyPress = (event, snake) => {
 };
 
 const attachEventListeners = snake => {
-  document.onkeydown = () => handleKeyPress(event, snake);
+  document.body.onkeydown = () => handleKeyPress(event, snake);
 };
 
 const initSnake = () => {
@@ -52,19 +52,20 @@ const generateNewFood = function() {
 };
 
 const playGame = function(game, draw, gameContinue, ghostTurn) {
+  if (game.isSnakeDead()) {
+    clearInterval(gameContinue);
+    clearInterval(ghostTurn);
+    draw.gameOver(getGrid(GAME_OVER), getGrid('score'));
+    return;
+  }
   if (game.isSnakeEatFood()) {
     draw.score();
     draw.eraseFood();
     game.newFood(generateNewFood());
     draw.food();
   }
-  if (game.isSnakeDead()) {
-    clearInterval(gameContinue);
-    clearInterval(ghostTurn);
-    draw.gameOver(getGrid(GAME_OVER), getGrid('score'));
-  }
-  game.moveSnakes();
   draw.snakes();
+  game.moveSnakes();
 };
 
 const randomlyTurnGhost = ghostSnake => {
@@ -83,7 +84,7 @@ const main = function() {
   attachEventListeners(snake);
   const gameContinue = setInterval(
     () => playGame(game, draw, gameContinue, ghostTurn),
-    100
+    150
   );
-  const ghostTurn = setInterval(randomlyTurnGhost, 200, ghostSnake);
+  const ghostTurn = setInterval(randomlyTurnGhost, 250, ghostSnake);
 };

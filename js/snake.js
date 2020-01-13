@@ -21,16 +21,16 @@ class Snake {
     return this.positions[this.positions.length - 1];
   }
   move() {
-    const [headX, headY] = this.head;
+    const [headY, headX] = this.head;
     this.previousTail = this.positions.shift();
-    const [deltaX, deltaY] = this.direction.delta;
-    this.positions.push([headX + deltaX, headY + deltaY]);
+    const [deltaY, deltaX] = this.direction.delta;
+    this.positions.push([headY + deltaY, headX + deltaX]);
   }
   eat(food) {
     const [colId, rowId] = food.position();
     const lastIndex = this.positions.length - 1;
     const snakeHead = this.positions[lastIndex];
-    const hasEatenFood = snakeHead[0] == colId && snakeHead[1] == rowId;
+    const hasEatenFood = snakeHead[0] === colId && snakeHead[1] === rowId;
     if (hasEatenFood) {
       this.positions.unshift(this.previousTail);
     }
@@ -38,11 +38,13 @@ class Snake {
   }
   isTouchItself() {
     const snakeBody = this.location.slice(0, -1);
-    return snakeBody.some(body =>
-      this.head.every(headCoords => body.includes(headCoords))
+    return snakeBody.some(
+      body => this.head[0] == body[0] && this.head[1] == body[1]
     );
   }
-  isCrossBorder(wall) {
-    return false;
+  isCrossBorder(border) {
+    const isOutOfCols = this.head[0] >= border[0] || this.head[0] < 0;
+    const isOutOfRows = this.head[1] >= border[1] || this.head[1] < 0;
+    return isOutOfCols || isOutOfRows;
   }
 }

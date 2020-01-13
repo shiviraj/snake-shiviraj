@@ -6,9 +6,9 @@ class Draw {
   }
   initialize() {
     const [numOfCols, numOfRows] = this.game.border;
-    for (let y = 0; y < numOfRows; y++) {
-      for (let x = 0; x < numOfCols; x++) {
-        createCell(this.grid, x, y);
+    for (let row = 0; row < numOfRows; row++) {
+      for (let col = 0; col < numOfCols; col++) {
+        createCell(this.grid, col, row);
       }
     }
     this.snakes();
@@ -46,7 +46,7 @@ class Draw {
   }
   gameOver(gameOver, score) {
     score.innerText = `${this.game.score}`;
-    gameOver.style.margin = '0 5%';
+    gameOver.style.margin = '0 2%';
     gameOver.style.transition = 'margin 1s';
   }
 }

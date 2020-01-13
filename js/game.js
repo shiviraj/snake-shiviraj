@@ -23,6 +23,6 @@ class Game {
     this.score += 5;
   }
   isSnakeDead() {
-    return this.snake.isTouchItself() || this.snake.isCrossBorder(this.border);
+    return this.snake.isCrossBorder(this.border) || this.snake.isTouchItself();
   }
 }

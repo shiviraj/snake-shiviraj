@@ -19,8 +19,7 @@ class Direction {
     this.heading = (this.heading + 1) % 4;
   }
   turnRight() {
-    this.heading = this.heading - 1;
-    if (this.heading == -1) this.heading = 3;
+    this.heading = (this.heading + 3) % 4;
   }
 }
 
@@ -43,8 +42,11 @@ class Snake {
   turnRight() {
     this.direction.turnRight();
   }
+  get head() {
+    return this.positions[this.positions.length - 1];
+  }
   move() {
-    const [headX, headY] = this.positions[this.positions.length - 1];
+    const [headX, headY] = this.head;
     this.previousTail = this.positions.shift();
     const [deltaX, deltaY] = this.direction.delta;
     this.positions.push([headX + deltaX, headY + deltaY]);
@@ -59,6 +61,15 @@ class Snake {
     }
     return hasEatenFood;
   }
+  isTouchItself() {
+    const snakeBody = this.location.slice(0, -1);
+    return snakeBody.some(body =>
+      this.head.every(headCoords => body.includes(headCoords))
+    );
+  }
+  isCrossBorder(wall) {
+    return false;
+  }
 }
 
 class Food {
@@ -72,12 +83,14 @@ class Food {
 }
 
 class Game {
-  constructor(snake, ghostSnake, food) {
+  constructor(snake, ghostSnake, food, border) {
     this.snake = snake;
     this.ghostSnake = ghostSnake;
     this.food = food;
+    this.border = border.slice();
     this.score = 0;
   }
+  //have to change it by setting food inside
   newFood(newFood) {
     this.food = newFood;
   }
@@ -93,6 +106,9 @@ class Game {
   updateScore() {
     this.score += 5;
   }
+  isSnakeDead() {
+    return this.snake.isTouchItself() || this.snake.isCrossBorder(this.border);
+  }
 }
 
 class Draw {
@@ -101,14 +117,13 @@ class Draw {
     this.game = game;
     this.scoreCard = score;
   }
-  initialize(numOfCols, numOfRows) {
+  initialize() {
+    const [numOfCols, numOfRows] = this.game.border;
     for (let y = 0; y < numOfRows; y++) {
       for (let x = 0; x < numOfCols; x++) {
         createCell(this.grid, x, y);
       }
     }
-  }
-  setup() {
     this.snakes();
     this.food();
     this.score();
@@ -141,5 +156,10 @@ class Draw {
   }
   score() {
     this.scoreCard.innerText = `Score: ${this.game.score}`;
+  }
+  gameOver(gameOver, score) {
+    score.innerText = `${this.game.score}`;
+    gameOver.style.margin = '0 5%';
+    gameOver.style.transition = 'margin 1s';
   }
 }

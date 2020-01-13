@@ -2,6 +2,7 @@ const NUM_OF_COLS = 100;
 const NUM_OF_ROWS = 60;
 const GRID_ID = 'grid';
 const SCORE_ID = 'score-card';
+const GAME_OVER = 'game-over';
 const LEFT_KEY_CODE = 37;
 const RIGHT_KEY_CODE = 39;
 
@@ -50,12 +51,17 @@ const generateNewFood = function() {
   return new Food(colId, rowId);
 };
 
-const playGame = function(game, draw) {
+const playGame = function(game, draw, gameContinue, ghostTurn) {
   if (game.isSnakeEatFood()) {
     draw.score();
     draw.eraseFood();
     game.newFood(generateNewFood());
     draw.food();
+  }
+  if (game.isSnakeDead()) {
+    clearInterval(gameContinue);
+    clearInterval(ghostTurn);
+    draw.gameOver(getGrid(GAME_OVER), getGrid('score'));
   }
   game.moveSnakes();
   draw.snakes();
@@ -70,11 +76,14 @@ const main = function() {
   const snake = initSnake();
   const ghostSnake = initGhostSnake();
   const food = new Food(50, 25);
-  const game = new Game(snake, ghostSnake, food);
+  const border = [NUM_OF_COLS, NUM_OF_ROWS];
+  const game = new Game(snake, ghostSnake, food, border);
   const draw = new Draw(game, getGrid(GRID_ID), getGrid(SCORE_ID));
-  draw.initialize(NUM_OF_COLS, NUM_OF_ROWS);
-  draw.setup();
+  draw.initialize();
   attachEventListeners(snake);
-  setInterval(() => playGame(game, draw), 200);
-  setInterval(randomlyTurnGhost, 500, ghostSnake);
+  const gameContinue = setInterval(
+    () => playGame(game, draw, gameContinue, ghostTurn),
+    100
+  );
+  const ghostTurn = setInterval(randomlyTurnGhost, 200, ghostSnake);
 };

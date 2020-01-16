@@ -16,7 +16,7 @@ class Draw {
     this.score();
   }
   eraseTail(snake) {
-    const [colId, rowId] = snake.previousTail;
+    const [colId, rowId] = snake.getTail();
     const cell = getCell(colId, rowId);
     cell.classList.remove(snake.species);
   }

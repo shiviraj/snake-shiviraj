@@ -10,6 +10,9 @@ class Game {
   newFood(newFood) {
     this.food = newFood;
   }
+  getSnakes() {
+    return [this.snake, this.ghostSnake];
+  }
   moveSnakes() {
     this.snake.move();
     this.ghostSnake.move();

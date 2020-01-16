@@ -28,8 +28,8 @@ class Draw {
         cell.classList.add(snake.species);
       });
     };
-    singleSnake(this.game.snake);
-    singleSnake(this.game.ghostSnake);
+    const snakes = this.game.getSnakes();
+    snakes.forEach(snake => singleSnake(snake));
   }
   eraseFood() {
     const [colId, rowId] = this.game.food.position();

@@ -21,8 +21,8 @@ class Snake {
     return this.positions[this.positions.length - 1];
   }
   move() {
-    const [headY, headX] = this.head;
     this.previousTail = this.positions.shift();
+    let [headY, headX] = this.head;
     const [deltaY, deltaX] = this.direction.delta;
     this.positions.push([headY + deltaY, headX + deltaX]);
   }
@@ -46,5 +46,14 @@ class Snake {
     const isOutOfCols = this.head[0] >= border[0] || this.head[0] < 0;
     const isOutOfRows = this.head[1] >= border[1] || this.head[1] < 0;
     return isOutOfCols || isOutOfRows;
+  }
+  comeThroughOtherSide() {
+    this.positions.forEach(([headY, headX], index) => {
+      if (headY < 0) headY = NUM_OF_COLS - 1;
+      headY = headY % NUM_OF_COLS;
+      if (headX < 0) headX = NUM_OF_ROWS - 1;
+      headX = headX % NUM_OF_ROWS;
+      this.positions[index] = [headY, headX];
+    });
   }
 }

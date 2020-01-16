@@ -70,7 +70,8 @@ const playGame = function(game, draw, gameContinue, ghostTurn) {
 
 const randomlyTurnGhost = ghostSnake => {
   const x = Math.random() * 100;
-  if (x < 50) ghostSnake.turnLeft();
+  if (x < 30) ghostSnake.turnLeft();
+  if (x > 70) ghostSnake.turnRight();
 };
 
 const main = function() {

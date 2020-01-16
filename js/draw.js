@@ -46,7 +46,7 @@ class Draw {
   }
   gameOver(gameOver, score) {
     score.innerText = `${this.game.score}`;
-    gameOver.style.margin = '0 2%';
+    gameOver.style.margin = '0 5%';
     gameOver.style.transition = 'margin 1s';
   }
 }

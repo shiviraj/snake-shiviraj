@@ -13,6 +13,9 @@ class Game {
   moveSnakes() {
     this.snake.move();
     this.ghostSnake.move();
+    if (this.ghostSnake.isCrossBorder(this.border)) {
+      this.ghostSnake.comeThroughOtherSide();
+    }
   }
   isSnakeEatFood() {
     const isFoodEaten = this.snake.eat(this.food);

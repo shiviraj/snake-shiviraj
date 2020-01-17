@@ -46,7 +46,7 @@ class Snake {
   isTouchItself() {
     const snakeBody = this.location.slice(0, -1);
     return snakeBody.some(
-      body => this.head[0] == body[0] && this.head[1] == body[1]
+      body => this.head[0] === body[0] && this.head[1] === body[1]
     );
   }
   isCrossBorder(border) {

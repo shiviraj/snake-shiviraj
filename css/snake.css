@@ -1,3 +1,7 @@
+body {
+  background-color: #3e3;
+}
+
 h1 {
   text-align: center;
 }
@@ -23,7 +27,7 @@ h1 {
   display: flex;
   margin: 0 auto;
   flex-wrap: wrap;
-  border: 1px solid black;
+  border: 5px solid black;
 }
 
 .cell {
@@ -36,10 +40,11 @@ h1 {
 
 .snake {
   background-color: black;
+  border-radius: 2px;
 }
 
 .ghost {
-  background-color: gray;
+  background-color: #555;
 }
 #score-card {
   font-size: 24px;
